@@ -33,9 +33,9 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
           Points, goals, and assists over the last 12 games
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pl-2 pr-2">
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
-          <AreaChart data={data}>
+          <AreaChart data={data} margin={{ left: -20, right: 10, top: 10, bottom: 0 }}>
             <defs>
               <linearGradient id="fillPoints" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="rgb(59, 130, 246)" stopOpacity={0.8} />
@@ -66,7 +66,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               stroke="#94a3b8"
               tickLine={false}
               axisLine={false}
-              tickMargin={8}
+              tickMargin={4}
+              width={30}
             />
             <ChartTooltip
               content={<ChartTooltipContent />}

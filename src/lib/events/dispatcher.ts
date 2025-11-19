@@ -153,12 +153,33 @@ export class EventDispatcher {
   }
 
   private createGoalNotification(event: GoalEvent): NotificationPayload {
-    const { player, seasonStats, game } = event;
+    const { player, seasonStats, game, goalType, periodTime, assistedBy } = event;
     const opponent = game.homeTeam.name === player.team ? game.awayTeam.name : game.homeTeam.name;
+    const score = `${game.homeTeam.score}-${game.awayTeam.score}`;
+
+    // Create detailed description based on goal type
+    let goalDescription = '';
+    if (goalType === 'power_play') {
+      goalDescription = `Power play goal at ${periodTime} of Period ${game.period}!`;
+    } else if (goalType === 'short_handed') {
+      goalDescription = `SHORTHANDED BEAUTY at ${periodTime} of Period ${game.period}!`;
+    } else if (goalType === 'overtime') {
+      goalDescription = `OVERTIME WINNER at ${periodTime}!`;
+    } else if (goalType === 'penalty_shot') {
+      goalDescription = `PENALTY SHOT GOAL at ${periodTime}!`;
+    } else {
+      goalDescription = `Even strength goal at ${periodTime} of Period ${game.period}`;
+    }
+
+    // Add assist info if available
+    if (assistedBy && assistedBy.length > 0) {
+      const assistNames = assistedBy.map(a => `#${a.number} ${a.name}`).join(', ');
+      goalDescription += `\n(${assistNames})`;
+    }
 
     return {
-      title: `⚽ GOAL! ${player.name} scores!`,
-      body: `That's ${this.ordinal(seasonStats.goals)} goal of the season vs ${opponent}`,
+      title: `⚽ GOAL! ${player.name} (#${player.number})`,
+      body: `${goalDescription}\n${score} vs ${opponent} • ${this.ordinal(seasonStats.goals)} this season`,
       icon: '/icons/goal-icon.png',
       data: event,
       tag: `goal-${event.id}`,
@@ -171,12 +192,16 @@ export class EventDispatcher {
   }
 
   private createAssistNotification(event: AssistEvent): NotificationPayload {
-    const { player, seasonStats, game } = event;
+    const { player, seasonStats, game, assistType, goalScoredBy, periodTime } = event;
     const opponent = game.homeTeam.name === player.team ? game.awayTeam.name : game.homeTeam.name;
+    const score = `${game.homeTeam.score}-${game.awayTeam.score}`;
+
+    const assistTypeText = assistType === 'primary' ? 'Primary assist' : 'Secondary assist';
+    const ppg = seasonStats.pointsPerGame.toFixed(2);
 
     return {
-      title: `🎯 Assist for ${player.name}!`,
-      body: `${seasonStats.points} points in ${seasonStats.gamesPlayed} games vs ${opponent}`,
+      title: `🎯 ${assistTypeText.toUpperCase()}! ${player.name} (#${player.number})`,
+      body: `${assistTypeText} on ${goalScoredBy.name}'s goal at ${periodTime}\n${score} • ${seasonStats.assists}A ${seasonStats.points}PTS (${ppg} PPG) • vs ${opponent}`,
       icon: '/icons/assist-icon.png',
       data: event,
       tag: `assist-${event.id}`,
@@ -187,11 +212,12 @@ export class EventDispatcher {
   }
 
   private createPenaltyNotification(event: PenaltyEvent): NotificationPayload {
-    const { player, infraction, duration } = event;
+    const { player, infraction, duration, periodTime, game, seasonStats } = event;
+    const opponent = game.homeTeam.name === player.team ? game.awayTeam.name : game.homeTeam.name;
 
     return {
-      title: `⚠️ Penalty: ${player.name}`,
-      body: `${duration} min for ${infraction}`,
+      title: `⚠️ PENALTY: ${player.name} (#${player.number})`,
+      body: `${duration} minutes for ${infraction} at ${periodTime} of Period ${game.period}\nvs ${opponent} • ${seasonStats.penaltyMinutes} PIM this season`,
       icon: '/icons/penalty-icon.png',
       data: event,
       tag: `penalty-${event.id}`,
@@ -241,12 +267,12 @@ export class EventDispatcher {
   }
 
   private createGameStartNotification(event: GameStartEvent): NotificationPayload {
-    const { player, game, minutesUntilStart } = event;
+    const { player, game, minutesUntilStart, seasonStats } = event;
     const opponent = game.homeTeam.name === player.team ? game.awayTeam : game.homeTeam;
 
     return {
-      title: `📢 Game Starting Soon`,
-      body: `${player.name}'s game starts in ${minutesUntilStart} minutes vs ${opponent.name}`,
+      title: `🏒 ${player.name} (#${player.number}) vs ${opponent.abbreviation}`,
+      body: `Game starts in ${minutesUntilStart} minutes!\n${player.name}: ${seasonStats.goals}G ${seasonStats.assists}A ${seasonStats.points}PTS in ${seasonStats.gamesPlayed}GP (${seasonStats.pointsPerGame.toFixed(2)} PPG)`,
       icon: '/icons/game-start-icon.png',
       data: event,
       tag: `game-start-${game.id}`,
@@ -254,13 +280,17 @@ export class EventDispatcher {
   }
 
   private createGameEndNotification(event: GameEndEvent): NotificationPayload {
-    const { player, gameStats, game } = event;
+    const { player, gameStats, game, aiSummary } = event;
     const win = (game.homeTeam.name === player.team && game.homeTeam.score > game.awayTeam.score) ||
                 (game.awayTeam.name === player.team && game.awayTeam.score > game.homeTeam.score);
 
+    const result = win ? 'WIN' : 'LOSS';
+    const finalScore = `${game.homeTeam.abbreviation} ${game.homeTeam.score} - ${game.awayTeam.score} ${game.awayTeam.abbreviation}`;
+    const plusMinusText = gameStats.plusMinus > 0 ? `+${gameStats.plusMinus}` : `${gameStats.plusMinus}`;
+
     return {
-      title: `🏒 Game Final`,
-      body: `${player.name}: ${gameStats.goals}G, ${gameStats.assists}A\nTap for AI Summary`,
+      title: `🏁 FINAL: ${result} ${finalScore}`,
+      body: `${player.name} (#${player.number}): ${gameStats.goals}G ${gameStats.assists}A ${gameStats.points}PTS • ${gameStats.shots} SOG • ${plusMinusText}\nTap for AI-powered game summary`,
       icon: '/icons/game-end-icon.png',
       data: event,
       tag: `game-end-${game.id}`,

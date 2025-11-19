@@ -1,0 +1,12 @@
+{
+  "name": "game-iq-scripts",
+  "version": "1.0.0",
+  "description": "Event simulation scripts for GameIQ",
+  "scripts": {
+    "simulate": "tsx simulate-game-events.ts",
+    "dispatch": "tsx dispatch-events.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0"
+  }
+}

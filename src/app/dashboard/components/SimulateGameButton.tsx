@@ -30,6 +30,11 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
   const [eventCount, setEventCount] = useState(0);
 
   const simulateGame = async () => {
+    // Only run in browser
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     // Check notification permission
     if ('Notification' in window && Notification.permission !== 'granted') {
       const permission = await Notification.requestPermission();

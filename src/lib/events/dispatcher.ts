@@ -89,6 +89,11 @@ export class EventDispatcher {
   }
 
   private async sendNotification(event: HockeyEvent): Promise<void> {
+    // Skip if running on server
+    if (typeof window === 'undefined' || typeof navigator === 'undefined') {
+      return;
+    }
+
     const payload = this.createNotificationPayload(event);
 
     if ('serviceWorker' in navigator && 'PushManager' in window) {

@@ -33,7 +33,7 @@ export interface GameStats {
   points: number;
   shots: number;
   plusMinus: number;
-  gameSummary: string;
+  gameSummary?: string;
 }
 
 export interface PerformanceDataPoint {

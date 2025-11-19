@@ -1,11 +1,12 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(pnpm dlx shadcn@latest add:*)",
+      "Bash(pnpm build:*)"
+    ]
+  },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "shadcn"
-  ],
-  "permissions": {
-    "allow": [
-      "Bash(pnpm dlx shadcn@latest add:*)"
-    ]
-  }
+  ]
 }

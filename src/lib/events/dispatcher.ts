@@ -95,17 +95,27 @@ export class EventDispatcher {
       const registration = await navigator.serviceWorker.ready;
 
       try {
-        await registration.showNotification(payload.title, {
+        const notificationOptions: NotificationOptions = {
           body: payload.body,
           icon: payload.icon || '/icons/icon-192x192.png',
           badge: payload.badge || '/icons/badge-72x72.png',
           data: payload.data,
           tag: payload.tag || `event-${event.id}`,
           requireInteraction: payload.requireInteraction || false,
-          actions: payload.actions,
-          vibrate: this.getVibrationPattern(event.type),
-          timestamp: Date.now(),
-        });
+        };
+
+        // Add optional properties if they exist (using any to bypass strict type checking)
+        if (payload.actions) {
+          (notificationOptions as any).actions = payload.actions;
+        }
+
+        // Add vibrate pattern
+        (notificationOptions as any).vibrate = this.getVibrationPattern(event.type);
+
+        // Add timestamp
+        (notificationOptions as any).timestamp = Date.now();
+
+        await registration.showNotification(payload.title, notificationOptions);
       } catch (error) {
         console.error('Error showing notification:', error);
       }

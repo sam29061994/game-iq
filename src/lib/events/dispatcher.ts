@@ -163,10 +163,8 @@ export class EventDispatcher {
       goalDescription = `Power play goal at ${periodTime} of Period ${game.period}!`;
     } else if (goalType === 'short_handed') {
       goalDescription = `SHORTHANDED BEAUTY at ${periodTime} of Period ${game.period}!`;
-    } else if (goalType === 'overtime') {
-      goalDescription = `OVERTIME WINNER at ${periodTime}!`;
-    } else if (goalType === 'penalty_shot') {
-      goalDescription = `PENALTY SHOT GOAL at ${periodTime}!`;
+    } else if (goalType === 'empty_net') {
+      goalDescription = `EMPTY NET GOAL at ${periodTime} of Period ${game.period}!`;
     } else {
       goalDescription = `Even strength goal at ${periodTime} of Period ${game.period}`;
     }

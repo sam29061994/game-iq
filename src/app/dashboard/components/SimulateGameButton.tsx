@@ -124,7 +124,7 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       // Goal 1 - Response goal
       addLog(`⚽ GOAL! ${player.name} answers back with an even-strength goal!`);
       homeTeam.score++;
-      const assistPlayer = { id: 'p2', name: 'Leon Draisaitl', number: 29, position: 'C', team: player.team };
+      const assistPlayer: Player = { id: 'p2', name: 'Leon Draisaitl', number: 29, position: 'C', team: player.team };
       const goal1: GoalEvent = {
         id: `event-${eventId++}`,
         type: 'goal',
@@ -171,7 +171,7 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
         game: { ...game, homeTeam: { ...homeTeam }, awayTeam: { ...awayTeam } },
         player: mappedPlayer,
         seasonStats: { ...player.seasonStats, assists: player.seasonStats.assists + 1, points: player.seasonStats.points + 2 },
-        goalScoredBy: { id: 'p2', name: 'Zach Hyman', number: 18, position: 'LW', team: player.team },
+        goalScoredBy: { id: 'p2', name: 'Zach Hyman', number: 18, position: 'LW' as const, team: player.team },
         assistType: 'primary',
         periodTime: '14:22',
       };
@@ -212,7 +212,7 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
         game: { ...game, homeTeam: { ...homeTeam }, awayTeam: { ...awayTeam } },
         player: mappedPlayer,
         seasonStats: { ...player.seasonStats, assists: player.seasonStats.assists + 2, points: player.seasonStats.points + 3 },
-        goalScoredBy: { id: 'p3', name: 'Ryan Nugent-Hopkins', number: 93, position: 'C', team: player.team },
+        goalScoredBy: { id: 'p3', name: 'Ryan Nugent-Hopkins', number: 93, position: 'C' as const, team: player.team },
         assistType: 'secondary',
         periodTime: '3:12',
       };
@@ -222,7 +222,7 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       // Goal 2 - Power play goal!
       addLog(`⚡ POWER PLAY GOAL! ${player.name} capitalizes on the man advantage!`);
       homeTeam.score++;
-      const assistPlayer2 = { id: 'p4', name: 'Evan Bouchard', number: 2, position: 'D', team: player.team };
+      const assistPlayer2: Player = { id: 'p4', name: 'Evan Bouchard', number: 2, position: 'D', team: player.team };
       const goal2: GoalEvent = {
         id: `event-${eventId++}`,
         type: 'goal',
@@ -254,8 +254,8 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       // Goal 3 - Hat Trick goal!
       addLog(`⚽ GOAL! ${player.name} with a clutch goal - HAT TRICK ALERT! 🎩`);
       homeTeam.score++;
-      const assistPlayer3 = { id: 'p2', name: 'Leon Draisaitl', number: 29, position: 'C', team: player.team };
-      const assistPlayer4 = { id: 'p4', name: 'Evan Bouchard', number: 2, position: 'D', team: player.team };
+      const assistPlayer3: Player = { id: 'p2', name: 'Leon Draisaitl', number: 29, position: 'C', team: player.team };
+      const assistPlayer4: Player = { id: 'p4', name: 'Evan Bouchard', number: 2, position: 'D', team: player.team };
       const goal3: GoalEvent = {
         id: `event-${eventId++}`,
         type: 'goal',

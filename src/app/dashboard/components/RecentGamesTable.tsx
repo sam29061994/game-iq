@@ -14,7 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useUserStore } from '@/lib/mock-data/user-state';
 import type { GameStats } from '@/lib/mock-data/players';
-import { FileText } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface RecentGamesTableProps {
   games: GameStats[];
@@ -36,11 +36,16 @@ export function RecentGamesTable({ games, playerName }: RecentGamesTableProps) {
       <CardHeader>
         <CardTitle className="text-white">Recent Games</CardTitle>
         <CardDescription className="text-slate-400">
-          Last 5 game performances - click to view detailed summary
+          Game history - click any row to view detailed AI summary
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="overflow-x-auto">
+        <div className="max-h-[500px] overflow-y-auto overflow-x-auto"
+          style={{
+            scrollbarWidth: 'thin',
+            scrollbarColor: '#475569 #1e293b'
+          }}
+        >
           <Table>
             <TableHeader>
               <TableRow className="border-slate-700 hover:bg-slate-700/50">
@@ -112,13 +117,14 @@ export function RecentGamesTable({ games, playerName }: RecentGamesTableProps) {
                   </TableCell>
                   <TableCell className="text-center">
                     <Button
-                      variant="ghost"
+                      variant="outline"
                       size="sm"
                       onClick={() => handleViewSummary(game.id)}
-                      className="text-blue-400 hover:bg-slate-700 hover:text-blue-300"
+                      className="group border-blue-500/50 bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 hover:border-blue-400 hover:text-blue-300 transition-all"
                     >
-                      <FileText className="h-4 w-4" />
-                      <span className="ml-1 hidden sm:inline">View</span>
+                      <span className="hidden sm:inline font-medium">View Summary</span>
+                      <span className="sm:hidden font-medium">View</span>
+                      <ArrowRight className="ml-1.5 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </TableCell>
                 </TableRow>

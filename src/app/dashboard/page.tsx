@@ -7,6 +7,7 @@ import { StatsCard } from './components/StatsCard';
 import { PerformanceChart } from './components/PerformanceChart';
 import { RecentGamesTable } from './components/RecentGamesTable';
 import { SimulateGameButton } from './components/SimulateGameButton';
+import { DashboardHeader } from './components/DashboardHeader';
 import { Target, Trophy, TrendingUp, BarChart3 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -24,8 +25,10 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <main className="p-4 md:p-6 lg:p-8">
+    <div className="flex h-screen flex-col bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <DashboardHeader currentPage="dashboard" />
+      <main className="flex-1 overflow-y-auto">
+        <div className="mx-auto max-w-7xl p-4 md:p-6 lg:p-8">
           {/* Player Info Banner */}
           <div className="mb-6 rounded-lg bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 p-6">
             <div className="flex items-center gap-4">
@@ -91,9 +94,10 @@ export default function DashboardPage() {
             <PerformanceChart data={selectedPlayer.performanceData} />
           </div>
 
-        {/* Recent Games */}
-        <div>
-          <RecentGamesTable games={selectedPlayer.recentGames} playerName={selectedPlayer.name} />
+          {/* Recent Games */}
+          <div>
+            <RecentGamesTable games={selectedPlayer.recentGames} playerName={selectedPlayer.name} />
+          </div>
         </div>
       </main>
     </div>

@@ -19,14 +19,29 @@ import type {
   Game,
   Player,
 } from '@/lib/events/types';
+import {
+  Play,
+  Trophy,
+  Target,
+  AlertTriangle,
+  Star,
+  Clock,
+  CheckCircle2,
+  Zap
+} from 'lucide-react';
 
 interface SimulateGameButtonProps {
   player: PlayerProfile;
 }
 
+interface LogEntry {
+  message: string;
+  type: 'game_start' | 'period' | 'goal' | 'assist' | 'penalty' | 'milestone' | 'hat_trick' | 'game_end' | 'info';
+}
+
 export function SimulateGameButton({ player }: SimulateGameButtonProps) {
   const { isGameSimulating, setGameSimulating, notificationsEnabled } = useUserStore();
-  const [eventLog, setEventLog] = useState<string[]>([]);
+  const [eventLog, setEventLog] = useState<LogEntry[]>([]);
   const [eventCount, setEventCount] = useState(0);
 
   const simulateGame = async () => {
@@ -83,8 +98,8 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
     const goals: GoalEvent[] = [];
     let eventId = 1;
 
-    const addLog = (message: string) => {
-      setEventLog((prev) => [...prev, message]);
+    const addLog = (message: string, type: LogEntry['type']) => {
+      setEventLog((prev) => [...prev, { message, type }]);
       setEventCount((prev) => prev + 1);
     };
 
@@ -97,7 +112,7 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
 
     try {
       // Game start notification
-      addLog('📢 Game starting soon...');
+      addLog('Game starting soon...', 'game_start');
       const gameStartEvent: GameStartEvent = {
         id: `event-${eventId++}`,
         type: 'game_start',
@@ -113,16 +128,16 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       // Period 1
       game.status = 'live';
       game.period = 1;
-      addLog('🏒 Period 1 underway...');
+      addLog('Period 1 underway', 'period');
       await sleep(randomDelay(3000, 5000));
 
       // Early period action - Opponent scores first
-      addLog('⚽ Opponent scores first...');
+      addLog('Opponent scores first', 'info');
       awayTeam.score++;
       await sleep(randomDelay(5000, 8000));
 
       // Goal 1 - Response goal
-      addLog(`⚽ GOAL! ${player.name} answers back with an even-strength goal!`);
+      addLog(`${player.name} answers back with an even-strength goal!`, 'goal');
       homeTeam.score++;
       const assistPlayer: Player = { id: 'p2', name: 'Leon Draisaitl', number: 29, position: 'C', team: player.team };
       const goal1: GoalEvent = {
@@ -142,7 +157,7 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
 
       // Check for milestone (20th goal)
       if (player.seasonStats.goals === 19) {
-        addLog('🎉 MILESTONE! 20th goal of the season!');
+        addLog(`MILESTONE: ${player.name} reaches 20 goals this season!`, 'milestone');
         const milestone: MilestoneEvent = {
           id: `event-${eventId++}`,
           type: 'milestone',
@@ -162,7 +177,7 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       }
 
       // Assist
-      addLog(`🎯 Primary assist for ${player.name} on a beautiful setup!`);
+      addLog(`${player.name} with a primary assist on a beautiful setup`, 'assist');
       homeTeam.score++;
       const assist: AssistEvent = {
         id: `event-${eventId++}`,
@@ -179,7 +194,7 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       await sleep(randomDelay(6000, 9000));
 
       // Late period penalty
-      addLog(`⚠️ Penalty: ${player.name} gets called for hooking in a close game`);
+      addLog(`${player.name} called for hooking - 2 minutes`, 'penalty');
       const penalty: PenaltyEvent = {
         id: `event-${eventId++}`,
         type: 'penalty',
@@ -194,16 +209,16 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       await eventDispatcher.dispatch(penalty);
       await sleep(randomDelay(4000, 6000));
 
-      addLog('⏱️ End of Period 1');
+      addLog('End of Period 1', 'period');
       await sleep(randomDelay(3000, 4000));
 
       // Period 2
       game.period = 2;
-      addLog('🏒 Period 2 begins!');
+      addLog('Period 2 begins', 'period');
       await sleep(randomDelay(4000, 6000));
 
       // Second assist - building momentum
-      addLog(`🎯 Secondary assist for ${player.name}!`);
+      addLog(`${player.name} with a secondary assist`, 'assist');
       homeTeam.score++;
       const secondAssist: AssistEvent = {
         id: `event-${eventId++}`,
@@ -220,7 +235,7 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       await sleep(randomDelay(5000, 8000));
 
       // Goal 2 - Power play goal!
-      addLog(`⚡ POWER PLAY GOAL! ${player.name} capitalizes on the man advantage!`);
+      addLog(`${player.name} scores on the power play!`, 'goal');
       homeTeam.score++;
       const assistPlayer2: Player = { id: 'p4', name: 'Evan Bouchard', number: 2, position: 'D', team: player.team };
       const goal2: GoalEvent = {
@@ -238,21 +253,21 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       await eventDispatcher.dispatch(goal2);
       await sleep(randomDelay(6000, 9000));
 
-      addLog('⏱️ End of Period 2 - momentum building!');
+      addLog('End of Period 2', 'period');
       await sleep(randomDelay(3000, 4000));
 
       // Period 3
       game.period = 3;
-      addLog('🏒 Final period! Closing time...');
+      addLog('Final period underway', 'period');
       await sleep(randomDelay(4000, 6000));
 
       // Opponent scores - game gets tight
-      addLog('⚽ Opponent scores - game tightening up!');
+      addLog('Opponent scores - game tightening up', 'info');
       awayTeam.score++;
       await sleep(randomDelay(6000, 9000));
 
       // Goal 3 - Hat Trick goal!
-      addLog(`⚽ GOAL! ${player.name} with a clutch goal - HAT TRICK ALERT! 🎩`);
+      addLog(`${player.name} with a clutch goal!`, 'goal');
       homeTeam.score++;
       const assistPlayer3: Player = { id: 'p2', name: 'Leon Draisaitl', number: 29, position: 'C', team: player.team };
       const assistPlayer4: Player = { id: 'p4', name: 'Evan Bouchard', number: 2, position: 'D', team: player.team };
@@ -272,7 +287,7 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       await sleep(randomDelay(5000, 7000));
 
       // Hat Trick celebration!
-      addLog(`🔥🎩 HAT TRICK! ${player.name} completes the natural hat trick! Hats rain down!`);
+      addLog(`HAT TRICK! ${player.name} completes the natural hat trick!`, 'hat_trick');
       const hatTrick: HatTrickEvent = {
         id: `event-${eventId++}`,
         type: 'hat_trick',
@@ -286,12 +301,12 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       await eventDispatcher.dispatch(hatTrick);
       await sleep(randomDelay(6000, 9000));
 
-      addLog('⏱️ Final minutes of regulation...');
+      addLog('Final minutes of regulation', 'period');
       await sleep(randomDelay(3000, 5000));
 
       // Game End
       game.status = 'final';
-      addLog('🏁 Final horn sounds! What a performance!');
+      addLog('Final horn sounds - Game Over', 'game_end');
       await sleep(randomDelay(2000, 3000));
 
       const gameStats = {
@@ -327,10 +342,10 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       await eventDispatcher.dispatch(gameEnd);
       await sleep(randomDelay(3000, 4000));
 
-      addLog('✅ Simulation complete! Check your notifications!');
+      addLog('Simulation complete', 'info');
     } catch (error) {
       console.error('Simulation error:', error);
-      addLog('❌ Simulation error occurred');
+      addLog('Simulation error occurred', 'info');
     } finally {
       setGameSimulating(false);
     }
@@ -379,27 +394,62 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
         </Button>
 
         {eventLog.length > 0 && (
-          <div className="mt-4 max-h-64 space-y-2 overflow-y-auto rounded-lg border border-slate-700 bg-slate-900/50 p-4">
-            <div className="mb-2 flex items-center justify-between border-b border-slate-700 pb-2">
-              <p className="text-sm font-semibold text-white">Event Log</p>
-              <Badge variant="outline" className="border-slate-600 text-slate-300">
+          <div className="mt-4 max-h-64 space-y-2 overflow-y-auto rounded-lg border border-slate-700 bg-slate-900/50 p-4"
+            style={{
+              scrollbarWidth: 'thin',
+              scrollbarColor: '#475569 #1e293b'
+            }}>
+            <div className="mb-3 flex items-center justify-between border-b border-slate-700 pb-2">
+              <p className="text-sm font-semibold text-white">Game Events</p>
+              <Badge variant="outline" className="border-blue-500/50 bg-blue-500/10 text-blue-400 text-xs">
                 {eventCount} events
               </Badge>
             </div>
-            {eventLog.map((log, index) => (
-              <div
-                key={index}
-                className="animate-in fade-in slide-in-from-left-2 text-sm text-slate-300"
-              >
-                {log}
-              </div>
-            ))}
+            {eventLog.map((entry, index) => {
+              const getEventIcon = (type: LogEntry['type']) => {
+                switch (type) {
+                  case 'game_start':
+                    return <Play className="h-4 w-4 text-blue-400" />;
+                  case 'period':
+                    return <Clock className="h-4 w-4 text-cyan-400" />;
+                  case 'goal':
+                    return <Target className="h-4 w-4 text-green-400" />;
+                  case 'assist':
+                    return <Zap className="h-4 w-4 text-yellow-400" />;
+                  case 'penalty':
+                    return <AlertTriangle className="h-4 w-4 text-orange-400" />;
+                  case 'milestone':
+                    return <Star className="h-4 w-4 text-purple-400" />;
+                  case 'hat_trick':
+                    return <Trophy className="h-4 w-4 text-yellow-400" />;
+                  case 'game_end':
+                    return <CheckCircle2 className="h-4 w-4 text-green-400" />;
+                  default:
+                    return <Play className="h-4 w-4 text-slate-400" />;
+                }
+              };
+
+              return (
+                <div
+                  key={index}
+                  className="animate-in fade-in slide-in-from-left-2 flex items-start gap-2 rounded-md border border-slate-700/50 bg-slate-800/30 p-2.5"
+                >
+                  <div className="mt-0.5 flex-shrink-0">
+                    {getEventIcon(entry.type)}
+                  </div>
+                  <span className="text-sm text-slate-200 leading-relaxed">{entry.message}</span>
+                </div>
+              );
+            })}
           </div>
         )}
 
-        <p className="text-xs text-slate-500">
-          💡 Tip: Enable browser notifications to see push notifications during the simulation
-        </p>
+        <div className="flex items-start gap-2 rounded-md border border-blue-500/20 bg-blue-500/5 p-3">
+          <Star className="h-4 w-4 text-blue-400 mt-0.5 flex-shrink-0" />
+          <p className="text-xs text-slate-400 leading-relaxed">
+            Enable browser notifications to receive real-time push notifications during the simulation
+          </p>
+        </div>
       </CardContent>
     </Card>
   );

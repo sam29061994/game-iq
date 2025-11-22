@@ -6,18 +6,16 @@ import { useUserStore } from '@/lib/mock-data/user-state';
 
 export default function Home() {
   const router = useRouter();
-  const { selectedPlayer, userName } = useUserStore();
+  const { onboardingComplete } = useUserStore();
 
   useEffect(() => {
-    // Redirect based on onboarding state
-    if (selectedPlayer && userName) {
+    // Redirect based on onboarding completion flag
+    if (onboardingComplete) {
       router.push('/dashboard');
-    } else if (userName) {
-      router.push('/onboarding/select-player');
     } else {
       router.push('/onboarding');
     }
-  }, [selectedPlayer, userName, router]);
+  }, [onboardingComplete, router]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">

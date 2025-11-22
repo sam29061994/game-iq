@@ -172,12 +172,12 @@ export default function GameSummaryPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* AI-Generated Summary */}
+        {/* Game Summary */}
         <Card className="mb-6 border-slate-700 bg-slate-800/50">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-base text-white md:text-lg">
               <Lightbulb className="h-4 w-4 text-yellow-400 md:h-5 md:w-5" />
-              AI-Generated Game Summary
+              Game Summary
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -188,103 +188,121 @@ export default function GameSummaryPage({ params }: PageProps) {
         </Card>
 
         {/* Tabs for different sections */}
-        <Tabs defaultValue="periods" className="space-y-4">
-          <div className="w-full overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide">
-            <TabsList className="!w-auto min-w-max gap-2 bg-transparent p-0 lg:!w-full lg:grid lg:grid-cols-5 lg:gap-0 lg:bg-slate-800/50 lg:border lg:border-slate-700 lg:p-1">
-              <TabsTrigger
-                value="periods"
-                className="!flex-none snap-start whitespace-nowrap rounded-lg border-2 bg-slate-800 px-3 py-1.5 text-xs font-medium md:text-sm md:py-2 data-[state=active]:border-blue-400 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/25 data-[state=inactive]:border-slate-600 data-[state=inactive]:text-slate-100 data-[state=inactive]:hover:border-slate-500 data-[state=inactive]:hover:bg-slate-700 lg:!flex-1 lg:rounded-md lg:border-0"
-              >
-                Period Breakdown
-              </TabsTrigger>
-              <TabsTrigger
-                value="moments"
-                className="!flex-none snap-start whitespace-nowrap rounded-lg border-2 bg-slate-800 px-3 py-1.5 text-xs font-medium md:text-sm md:py-2 data-[state=active]:border-blue-400 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/25 data-[state=inactive]:border-slate-600 data-[state=inactive]:text-slate-100 data-[state=inactive]:hover:border-slate-500 data-[state=inactive]:hover:bg-slate-700 lg:!flex-1 lg:rounded-md lg:border-0"
-              >
-                Key Moments
-              </TabsTrigger>
-              <TabsTrigger
-                value="stats"
-                className="!flex-none snap-start whitespace-nowrap rounded-lg border-2 bg-slate-800 px-3 py-1.5 text-xs font-medium md:text-sm md:py-2 data-[state=active]:border-blue-400 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/25 data-[state=inactive]:border-slate-600 data-[state=inactive]:text-slate-100 data-[state=inactive]:hover:border-slate-500 data-[state=inactive]:hover:bg-slate-700 lg:!flex-1 lg:rounded-md lg:border-0"
-              >
-                Detailed Stats
-              </TabsTrigger>
-              <TabsTrigger
-                value="insights"
-                className="!flex-none snap-start whitespace-nowrap rounded-lg border-2 bg-slate-800 px-3 py-1.5 text-xs font-medium md:text-sm md:py-2 data-[state=active]:border-blue-400 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/25 data-[state=inactive]:border-slate-600 data-[state=inactive]:text-slate-100 data-[state=inactive]:hover:border-slate-500 data-[state=inactive]:hover:bg-slate-700 lg:!flex-1 lg:rounded-md lg:border-0"
-              >
-                Coaching Insights
-              </TabsTrigger>
-              <TabsTrigger
-                value="comparison"
-                className="!flex-none snap-start whitespace-nowrap rounded-lg border-2 bg-slate-800 px-3 py-1.5 text-xs font-medium md:text-sm md:py-2 data-[state=active]:border-blue-400 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/25 data-[state=inactive]:border-slate-600 data-[state=inactive]:text-slate-100 data-[state=inactive]:hover:border-slate-500 data-[state=inactive]:hover:bg-slate-700 lg:!flex-1 lg:rounded-md lg:border-0"
-              >
-                Comparisons
-              </TabsTrigger>
-            </TabsList>
+        <Tabs defaultValue="periods" className="space-y-5">
+          <div className="overflow-x-auto rounded-md border border-slate-700/50 bg-slate-800/30 p-1.5"
+            style={{
+              scrollbarWidth: 'thin',
+              scrollbarColor: '#475569 #1e293b'
+            }}>
+            <TabsList className="w-full inline-flex gap-1.5 bg-transparent p-0 min-w-max">
+                <TabsTrigger
+                  value="periods"
+                  className="rounded px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:text-slate-400 data-[state=inactive]:hover:bg-slate-800/50 data-[state=inactive]:hover:text-white"
+                >
+                  Periods
+                </TabsTrigger>
+                <TabsTrigger
+                  value="moments"
+                  className="rounded px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:text-slate-400 data-[state=inactive]:hover:bg-slate-800/50 data-[state=inactive]:hover:text-white"
+                >
+                  Moments
+                </TabsTrigger>
+                <TabsTrigger
+                  value="stats"
+                  className="rounded px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:text-slate-400 data-[state=inactive]:hover:bg-slate-800/50 data-[state=inactive]:hover:text-white"
+                >
+                  Stats
+                </TabsTrigger>
+                <TabsTrigger
+                  value="insights"
+                  className="rounded px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:text-slate-400 data-[state=inactive]:hover:bg-slate-800/50 data-[state=inactive]:hover:text-white"
+                >
+                  Insights
+                </TabsTrigger>
+                <TabsTrigger
+                  value="comparison"
+                  className="rounded px-3 py-2 text-sm font-medium transition-all data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=inactive]:text-slate-400 data-[state=inactive]:hover:bg-slate-800/50 data-[state=inactive]:hover:text-white whitespace-nowrap"
+                >
+                  Comparisons
+                </TabsTrigger>
+              </TabsList>
           </div>
 
           {/* Period Breakdown Tab */}
-          <TabsContent value="periods" className="space-y-3">
+          <TabsContent value="periods" className="space-y-4">
             {gameSummary.periodBreakdowns.map((period) => (
               <Card key={period.period} className="border-slate-700 bg-slate-800/50">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base text-white md:text-lg">Period {period.period}</CardTitle>
-                  <CardDescription className="text-xs text-slate-400 md:text-sm">
-                    {period.timeOnIce} TOI • {period.shifts} shifts • {period.plusMinus >= 0 ? '+' : ''}{period.plusMinus}
-                  </CardDescription>
+                <CardHeader className="pb-4 border-b border-slate-700/50">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 text-xl font-bold text-white">
+                        {period.period}
+                      </div>
+                      <div>
+                        <CardTitle className="text-lg text-white">Period {period.period}</CardTitle>
+                        <CardDescription className="text-sm text-slate-400">
+                          {period.timeOnIce} TOI • {period.shifts} shifts
+                        </CardDescription>
+                      </div>
+                    </div>
+                    <Badge
+                      variant="outline"
+                      className={`text-sm font-semibold ${period.plusMinus >= 0 ? 'border-green-500/50 bg-green-500/10 text-green-400' : 'border-red-500/50 bg-red-500/10 text-red-400'}`}
+                    >
+                      {period.plusMinus >= 0 ? '+' : ''}{period.plusMinus}
+                    </Badge>
+                  </div>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="pt-4 space-y-4">
                   {/* Stats Grid */}
-                  <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-8">
-                    <div className="text-center">
-                      <p className="text-xl font-bold text-blue-400 md:text-2xl">{period.goals}</p>
-                      <p className="text-[11px] text-slate-400 sm:text-xs">G</p>
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 md:grid-cols-7">
+                    <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-3 text-center hover:border-blue-500/50 hover:bg-blue-500/5 transition-colors">
+                      <p className="text-2xl font-bold text-blue-400">{period.goals}</p>
+                      <p className="text-xs text-slate-400 mt-1">Goals</p>
                     </div>
-                    <div className="text-center">
-                      <p className="text-xl font-bold text-cyan-400 md:text-2xl">{period.assists}</p>
-                      <p className="text-[11px] text-slate-400 sm:text-xs">A</p>
+                    <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-3 text-center hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-colors">
+                      <p className="text-2xl font-bold text-cyan-400">{period.assists}</p>
+                      <p className="text-xs text-slate-400 mt-1">Assists</p>
                     </div>
-                    <div className="text-center">
-                      <p className="text-xl font-bold text-purple-400 md:text-2xl">{period.shots}</p>
-                      <p className="text-[11px] text-slate-400 sm:text-xs">SOG</p>
+                    <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-3 text-center hover:border-purple-500/50 hover:bg-purple-500/5 transition-colors">
+                      <p className="text-2xl font-bold text-purple-400">{period.shots}</p>
+                      <p className="text-xs text-slate-400 mt-1">Shots</p>
                     </div>
-                    <div className="text-center">
-                      <p className="text-xl font-bold text-green-400 md:text-2xl">{period.hits}</p>
-                      <p className="text-[11px] text-slate-400 sm:text-xs">Hits</p>
+                    <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-3 text-center hover:border-green-500/50 hover:bg-green-500/5 transition-colors">
+                      <p className="text-2xl font-bold text-green-400">{period.hits}</p>
+                      <p className="text-xs text-slate-400 mt-1">Hits</p>
                     </div>
-                    <div className="text-center">
-                      <p className="text-xl font-bold text-yellow-400 md:text-2xl">{period.blocks}</p>
-                      <p className="text-[11px] text-slate-400 sm:text-xs">Blocks</p>
+                    <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-3 text-center hover:border-yellow-500/50 hover:bg-yellow-500/5 transition-colors">
+                      <p className="text-2xl font-bold text-yellow-400">{period.blocks}</p>
+                      <p className="text-xs text-slate-400 mt-1">Blocks</p>
                     </div>
-                    <div className="text-center">
-                      <p className="text-xl font-bold text-orange-400 md:text-2xl">{period.faceoffWins}</p>
-                      <p className="text-[11px] text-slate-400 sm:text-xs">FO W</p>
+                    <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-3 text-center hover:border-orange-500/50 hover:bg-orange-500/5 transition-colors">
+                      <p className="text-2xl font-bold text-orange-400">{period.faceoffWins}</p>
+                      <p className="text-xs text-slate-400 mt-1">FO W</p>
                     </div>
-                    <div className="text-center">
-                      <p className="text-xl font-bold text-red-400 md:text-2xl">{period.faceoffLosses}</p>
-                      <p className="text-[11px] text-slate-400 sm:text-xs">FO L</p>
-                    </div>
-                    <div className="text-center">
-                      <p className={`text-xl font-bold md:text-2xl ${period.plusMinus >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                        {period.plusMinus >= 0 ? '+' : ''}{period.plusMinus}
-                      </p>
-                      <p className="text-[11px] text-slate-400 sm:text-xs">+/-</p>
+                    <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-3 text-center hover:border-slate-500/50 hover:bg-slate-700/10 transition-colors">
+                      <p className="text-2xl font-bold text-slate-300">{period.faceoffLosses}</p>
+                      <p className="text-xs text-slate-400 mt-1">FO L</p>
                     </div>
                   </div>
 
                   {/* Highlights */}
-                  <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-3">
-                    <h4 className="mb-2 text-xs font-semibold text-white md:text-sm">Period Highlights:</h4>
-                    <ul className="space-y-1.5">
-                      {period.highlights.map((highlight, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-xs text-slate-200 md:text-sm">
-                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-green-400 md:h-4 md:w-4" />
-                          <span className="leading-relaxed">{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  {period.highlights.length > 0 && (
+                    <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-4">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Star className="h-4 w-4 text-yellow-400" />
+                        <h4 className="text-sm font-semibold text-white">Highlights</h4>
+                      </div>
+                      <ul className="space-y-2">
+                        {period.highlights.map((highlight, idx) => (
+                          <li key={idx} className="flex items-start gap-2 text-sm text-slate-300">
+                            <CheckCircle2 className="h-4 w-4 text-green-400 mt-0.5 flex-shrink-0" />
+                            <span className="leading-relaxed">{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -416,75 +434,95 @@ export default function GameSummaryPage({ params }: PageProps) {
 
           {/* Coaching Insights Tab */}
           <TabsContent value="insights" className="space-y-4">
+            {/* Strengths */}
             <Card className="border-slate-700 bg-slate-800/50">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base text-white md:text-lg">Coaching Analysis</CardTitle>
+              <CardHeader className="pb-3 border-b border-slate-700/50">
+                <CardTitle className="flex items-center gap-2 text-lg text-white">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500/20">
+                    <CheckCircle2 className="h-4 w-4 text-green-400" />
+                  </div>
+                  Strengths
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Strengths */}
-                <div>
-                  <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-white md:text-base">
-                    <CheckCircle2 className="h-4 w-4 text-green-400 md:h-5 md:w-5" />
-                    Strengths
-                  </h3>
-                  <ul className="space-y-1.5">
-                    {gameSummary.coachingInsights.strengths.map((strength, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-xs text-slate-300 md:text-sm">
-                        <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-green-400"></span>
-                        <span>{strength}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <CardContent className="pt-4">
+                <ul className="space-y-3">
+                  {gameSummary.coachingInsights.strengths.map((strength, idx) => (
+                    <li key={idx} className="flex items-start gap-3 rounded-lg border border-green-500/20 bg-green-500/5 p-3">
+                      <CheckCircle2 className="h-5 w-5 text-green-400 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-200 leading-relaxed">{strength}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
 
-                {/* Areas for Improvement */}
-                <div className="border-t border-slate-700 pt-4">
-                  <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-white md:text-base">
-                    <AlertCircle className="h-4 w-4 text-yellow-400 md:h-5 md:w-5" />
-                    Areas for Improvement
-                  </h3>
-                  <ul className="space-y-1.5">
-                    {gameSummary.coachingInsights.areasForImprovement.map((area, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-xs text-slate-300 md:text-sm">
-                        <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-yellow-400"></span>
-                        <span>{area}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            {/* Areas for Improvement */}
+            <Card className="border-slate-700 bg-slate-800/50">
+              <CardHeader className="pb-3 border-b border-slate-700/50">
+                <CardTitle className="flex items-center gap-2 text-lg text-white">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500/20">
+                    <AlertCircle className="h-4 w-4 text-yellow-400" />
+                  </div>
+                  Areas for Improvement
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <ul className="space-y-3">
+                  {gameSummary.coachingInsights.areasForImprovement.map((area, idx) => (
+                    <li key={idx} className="flex items-start gap-3 rounded-lg border border-yellow-500/20 bg-yellow-500/5 p-3">
+                      <AlertCircle className="h-5 w-5 text-yellow-400 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-200 leading-relaxed">{area}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
 
-                {/* Tactical Notes */}
-                <div className="border-t border-slate-700 pt-4">
-                  <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-white md:text-base">
-                    <Shield className="h-4 w-4 text-blue-400 md:h-5 md:w-5" />
-                    Tactical Notes
-                  </h3>
-                  <ul className="space-y-1.5">
-                    {gameSummary.coachingInsights.tacticalNotes.map((note, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-xs text-slate-300 md:text-sm">
-                        <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400"></span>
-                        <span>{note}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            {/* Tactical Notes */}
+            <Card className="border-slate-700 bg-slate-800/50">
+              <CardHeader className="pb-3 border-b border-slate-700/50">
+                <CardTitle className="flex items-center gap-2 text-lg text-white">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/20">
+                    <Shield className="h-4 w-4 text-blue-400" />
+                  </div>
+                  Tactical Notes
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <ul className="space-y-3">
+                  {gameSummary.coachingInsights.tacticalNotes.map((note, idx) => (
+                    <li key={idx} className="flex items-start gap-3 rounded-lg border border-blue-500/20 bg-blue-500/5 p-3">
+                      <Shield className="h-5 w-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-200 leading-relaxed">{note}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
 
-                {/* Game Context */}
-                <div className="border-t border-slate-700 pt-4">
-                  <h3 className="mb-3 text-sm font-semibold text-white md:text-base">Game Context</h3>
-                  <div className="space-y-2">
-                    <div>
-                      <p className="mb-0.5 text-xs font-semibold text-slate-400">Significance:</p>
-                      <p className="text-xs text-slate-300 md:text-sm">{gameSummary.gameContext.significance}</p>
-                    </div>
-                    <div>
-                      <p className="mb-0.5 text-xs font-semibold text-slate-400">Player Role:</p>
-                      <p className="text-xs text-slate-300 md:text-sm">{gameSummary.gameContext.playerRole}</p>
-                    </div>
-                    <div>
-                      <p className="mb-0.5 text-xs font-semibold text-slate-400">Matchup Notes:</p>
-                      <p className="text-xs text-slate-300 md:text-sm">{gameSummary.gameContext.matchupNotes}</p>
-                    </div>
+            {/* Game Context */}
+            <Card className="border-slate-700 bg-slate-800/50">
+              <CardHeader className="pb-3 border-b border-slate-700/50">
+                <CardTitle className="flex items-center gap-2 text-lg text-white">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-500/20">
+                    <Lightbulb className="h-4 w-4 text-purple-400" />
+                  </div>
+                  Game Context
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-4">
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-4">
+                    <p className="mb-2 text-xs font-semibold text-slate-400">Significance</p>
+                    <p className="text-sm text-slate-200 leading-relaxed">{gameSummary.gameContext.significance}</p>
+                  </div>
+                  <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-4">
+                    <p className="mb-2 text-xs font-semibold text-slate-400">Player Role</p>
+                    <p className="text-sm text-slate-200 leading-relaxed">{gameSummary.gameContext.playerRole}</p>
+                  </div>
+                  <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-4 sm:col-span-3 lg:col-span-1">
+                    <p className="mb-2 text-xs font-semibold text-slate-400">Matchup Notes</p>
+                    <p className="text-sm text-slate-200 leading-relaxed">{gameSummary.gameContext.matchupNotes}</p>
                   </div>
                 </div>
               </CardContent>
@@ -493,41 +531,55 @@ export default function GameSummaryPage({ params }: PageProps) {
 
           {/* Comparison Tab */}
           <TabsContent value="comparison" className="space-y-4">
-            <Card className="border-slate-700 bg-slate-800/50">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base text-white md:text-lg">Performance Comparisons</CardTitle>
-                <CardDescription className="text-xs text-slate-400 md:text-sm">
-                  How this game stacks up against team and league averages
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {gameSummary.comparisons.map((comp, idx) => (
-                  <div key={idx} className="space-y-2">
+            {gameSummary.comparisons.map((comp, idx) => {
+              const getGradientColor = (percentile: number) => {
+                if (percentile >= 75) return 'from-green-500 to-emerald-500';
+                if (percentile >= 50) return 'from-blue-500 to-cyan-500';
+                if (percentile >= 25) return 'from-yellow-500 to-orange-500';
+                return 'from-red-500 to-rose-500';
+              };
+
+              return (
+                <Card key={idx} className="border-slate-700 bg-slate-800/50">
+                  <CardHeader className="pb-3 border-b border-slate-700/50">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-semibold text-white md:text-base">{comp.metric}</span>
-                      <Badge variant="outline" className="border-slate-600 text-[11px] text-slate-300 md:text-xs">
+                      <CardTitle className="text-base text-white md:text-lg">{comp.metric}</CardTitle>
+                      <Badge variant="outline" className="border-blue-500/50 bg-blue-500/10 text-blue-400 text-xs font-semibold">
                         {comp.percentile}th percentile
                       </Badge>
                     </div>
-                    <div className="grid gap-2 sm:grid-cols-3">
-                      <div className="rounded-lg border border-blue-500/50 bg-blue-500/10 p-2.5 text-center md:p-3">
-                        <p className="text-[11px] text-slate-400">Player</p>
-                        <p className="text-lg font-bold text-blue-400 md:text-xl">{comp.playerValue.toFixed(2)}</p>
+                  </CardHeader>
+                  <CardContent className="pt-4 space-y-4">
+                    <div className="grid gap-3 grid-cols-3">
+                      <div className="rounded-lg border border-blue-500/50 bg-blue-500/10 p-4 text-center">
+                        <p className="text-xs text-slate-400 mb-1">Player</p>
+                        <p className="text-2xl font-bold text-blue-400">{comp.playerValue.toFixed(2)}</p>
                       </div>
-                      <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-2.5 text-center md:p-3">
-                        <p className="text-[11px] text-slate-400">Team Avg</p>
-                        <p className="text-lg font-bold text-slate-300 md:text-xl">{comp.teamAverage.toFixed(2)}</p>
+                      <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-4 text-center">
+                        <p className="text-xs text-slate-400 mb-1">Team Avg</p>
+                        <p className="text-2xl font-bold text-slate-300">{comp.teamAverage.toFixed(2)}</p>
                       </div>
-                      <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-2.5 text-center md:p-3">
-                        <p className="text-[11px] text-slate-400">League Avg</p>
-                        <p className="text-lg font-bold text-slate-300 md:text-xl">{comp.leagueAverage.toFixed(2)}</p>
+                      <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-4 text-center">
+                        <p className="text-xs text-slate-400 mb-1">League Avg</p>
+                        <p className="text-2xl font-bold text-slate-300">{comp.leagueAverage.toFixed(2)}</p>
                       </div>
                     </div>
-                    <Progress value={comp.percentile} className="h-2" />
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+                    <div>
+                      <div className="mb-2 flex items-center justify-between text-xs text-slate-400">
+                        <span>Below Average</span>
+                        <span>Above Average</span>
+                      </div>
+                      <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-slate-700/50">
+                        <div
+                          className={`h-full bg-gradient-to-r ${getGradientColor(comp.percentile)} transition-all`}
+                          style={{ width: `${comp.percentile}%` }}
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </TabsContent>
         </Tabs>
       </main>

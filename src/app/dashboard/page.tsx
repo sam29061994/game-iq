@@ -12,15 +12,17 @@ import { Target, Trophy, TrendingUp, BarChart3 } from 'lucide-react';
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { selectedPlayer, onboardingComplete } = useUserStore();
+  const { selectedPlayer, onboardingComplete, googleAuth, _hasHydrated } = useUserStore();
 
   useEffect(() => {
-    if (!onboardingComplete || !selectedPlayer) {
+    // Only check auth after Zustand has hydrated from localStorage
+    if (_hasHydrated && (!googleAuth || !onboardingComplete || !selectedPlayer)) {
       router.push('/onboarding');
     }
-  }, [onboardingComplete, selectedPlayer, router]);
+  }, [_hasHydrated, googleAuth, onboardingComplete, selectedPlayer, router]);
 
-  if (!selectedPlayer) {
+  // Show loading state while hydrating
+  if (!_hasHydrated || !googleAuth || !selectedPlayer) {
     return null;
   }
 

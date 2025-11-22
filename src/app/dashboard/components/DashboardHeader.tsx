@@ -3,7 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Home, FileText, ArrowLeft } from 'lucide-react';
+import { useUserStore } from '@/lib/mock-data/user-state';
+import { Home, FileText, ArrowLeft, LogOut } from 'lucide-react';
 
 interface DashboardHeaderProps {
   currentPage?: 'dashboard' | 'summary';
@@ -12,6 +13,12 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ currentPage = 'dashboard', onBack }: DashboardHeaderProps) {
   const router = useRouter();
+  const { clearUser } = useUserStore();
+
+  const handleLogout = () => {
+    clearUser();
+    router.push('/onboarding');
+  };
 
   return (
     <header className="flex-shrink-0 border-b border-slate-700/50 bg-slate-900/90 backdrop-blur-xl shadow-lg shadow-slate-900/50">
@@ -82,6 +89,15 @@ export function DashboardHeader({ currentPage = 'dashboard', onBack }: Dashboard
                 </>
               )}
             </Badge>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleLogout}
+              className="border-slate-600 bg-slate-800/50 text-slate-300 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/50 transition-colors"
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
+            </Button>
           </div>
         </div>
       </div>

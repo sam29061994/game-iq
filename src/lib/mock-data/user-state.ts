@@ -20,6 +20,7 @@ interface UserState {
   googleAuth: GoogleAuth | null;
   isGameSimulating: boolean;
   notificationsEnabled: boolean;
+  _hasHydrated: boolean;
   setUserName: (name: string) => void;
   setSelectedPlayer: (player: PlayerProfile) => void;
   setRelationshipType: (type: RelationshipType) => void;
@@ -27,6 +28,7 @@ interface UserState {
   setGoogleAuth: (auth: GoogleAuth | null) => void;
   setGameSimulating: (simulating: boolean) => void;
   setNotificationsEnabled: (enabled: boolean) => void;
+  setHasHydrated: (hasHydrated: boolean) => void;
   clearUser: () => void;
 }
 
@@ -40,6 +42,7 @@ export const useUserStore = create<UserState>()(
       googleAuth: null,
       isGameSimulating: false,
       notificationsEnabled: false,
+      _hasHydrated: false,
       setUserName: (name) => set({ userName: name }),
       setSelectedPlayer: (player) => set({ selectedPlayer: player }),
       setRelationshipType: (type) => set({ relationshipType: type }),
@@ -47,6 +50,7 @@ export const useUserStore = create<UserState>()(
       setGoogleAuth: (auth) => set({ googleAuth: auth }),
       setGameSimulating: (simulating) => set({ isGameSimulating: simulating }),
       setNotificationsEnabled: (enabled) => set({ notificationsEnabled: enabled }),
+      setHasHydrated: (hasHydrated) => set({ _hasHydrated: hasHydrated }),
       clearUser: () => set({
         userName: null,
         selectedPlayer: null,
@@ -58,6 +62,19 @@ export const useUserStore = create<UserState>()(
     }),
     {
       name: 'gameiq-user-storage',
+      partialize: (state) => ({
+        userName: state.userName,
+        selectedPlayer: state.selectedPlayer,
+        relationshipType: state.relationshipType,
+        onboardingComplete: state.onboardingComplete,
+        googleAuth: state.googleAuth,
+        notificationsEnabled: state.notificationsEnabled,
+        // isGameSimulating is excluded - will not persist across refreshes
+      }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
+      skipHydration: typeof window === 'undefined',
     }
   )
 );

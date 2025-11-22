@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -43,6 +43,32 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
   const { isGameSimulating, setGameSimulating, notificationsEnabled } = useUserStore();
   const [eventLog, setEventLog] = useState<LogEntry[]>([]);
   const [eventCount, setEventCount] = useState(0);
+  const simulationInProgressRef = useRef(false);
+
+  // Reset simulation state on mount and unmount
+  useEffect(() => {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+
+    // Reset on mount if stuck
+    if (isGameSimulating && !simulationInProgressRef.current) {
+      setGameSimulating(false);
+      if (typeof eventDispatcher?.reset === 'function') {
+        eventDispatcher.reset();
+      }
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (typeof window !== 'undefined' && simulationInProgressRef.current) {
+        simulationInProgressRef.current = false;
+        setGameSimulating(false);
+        if (typeof eventDispatcher?.reset === 'function') {
+          eventDispatcher.reset();
+        }
+      }
+    };
+  }, [isGameSimulating, setGameSimulating]);
 
   const simulateGame = async () => {
     // Only run in browser
@@ -59,9 +85,13 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       }
     }
 
+    simulationInProgressRef.current = true;
     setGameSimulating(true);
     setEventLog([]);
     setEventCount(0);
+    if (typeof eventDispatcher?.reset === 'function') {
+      eventDispatcher.reset();
+    }
 
     const homeTeam: Team = {
       id: 't1',
@@ -346,7 +376,11 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
     } catch (error) {
       console.error('Simulation error:', error);
       addLog('Simulation error occurred', 'info');
+      if (typeof eventDispatcher?.reset === 'function') {
+        eventDispatcher.reset();
+      }
     } finally {
+      simulationInProgressRef.current = false;
       setGameSimulating(false);
     }
   };

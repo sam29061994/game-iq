@@ -324,6 +324,13 @@ export class EventDispatcher {
   clearAll() {
     this.listeners.clear();
     this.eventQueue = [];
+    this.isProcessing = false;
+  }
+
+  // Reset dispatcher state (clears queue and processing flag)
+  reset() {
+    this.eventQueue = [];
+    this.isProcessing = false;
   }
 }
 

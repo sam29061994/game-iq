@@ -76,15 +76,6 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       return;
     }
 
-    // Check notification permission
-    if ('Notification' in window && Notification.permission !== 'granted') {
-      const permission = await Notification.requestPermission();
-      if (permission !== 'granted') {
-        alert('Please enable notifications to receive game updates!');
-        return;
-      }
-    }
-
     simulationInProgressRef.current = true;
     setGameSimulating(true);
     setEventLog([]);
@@ -161,26 +152,29 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       addLog('Period 1 underway', 'period');
       await sleep(randomDelay(3000, 5000));
 
-      // Early period action - Opponent scores first
-      addLog('Opponent scores first', 'info');
-      awayTeam.score++;
-      await sleep(randomDelay(5000, 8000));
-
-      // Goal 1 - Response goal
-      addLog(`${player.name} answers back with an even-strength goal!`, 'goal');
+      // Goal 1 - Player scores first
       homeTeam.score++;
       const assistPlayer: Player = { id: 'p2', name: 'Leon Draisaitl', number: 29, position: 'C', team: player.team };
+      const newGoalStats = player.seasonStats.goals + 1;
+      const newPointStats = player.seasonStats.points + 1;
       const goal1: GoalEvent = {
         id: `event-${eventId++}`,
         type: 'goal',
         timestamp: new Date().toISOString(),
         game: { ...game, homeTeam: { ...homeTeam }, awayTeam: { ...awayTeam } },
         player: mappedPlayer,
-        seasonStats: { ...player.seasonStats, goals: player.seasonStats.goals + 1, points: player.seasonStats.points + 1 },
+        seasonStats: { ...player.seasonStats, goals: newGoalStats, points: newPointStats },
+        leagueRanking: {
+          category: 'goals',
+          rank: 8,
+          previousRank: 11,
+          totalPlayers: 800,
+        },
         assistedBy: [assistPlayer],
         goalType: 'even_strength',
         periodTime: '8:45',
       };
+      addLog(`GOAL! ${player.name} scores (${homeTeam.score}-${awayTeam.score}) - ${newGoalStats} goals this season, now #8 in NHL`, 'goal');
       goals.push(goal1);
       await eventDispatcher.dispatch(goal1);
       await sleep(randomDelay(5000, 7000));
@@ -206,20 +200,32 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
         await sleep(randomDelay(4000, 6000));
       }
 
-      // Assist
-      addLog(`${player.name} with a primary assist on a beautiful setup`, 'assist');
+      // Opponent scores
+      addLog(`${awayTeam.name} scores - Now ${homeTeam.score}-${++awayTeam.score}`, 'info');
+      await sleep(randomDelay(4000, 6000));
+
+      // Assist - Player sets up Hyman
       homeTeam.score++;
+      const newAssistStats = player.seasonStats.assists + 1;
+      const newPointsAfterAssist = player.seasonStats.points + 2;
       const assist: AssistEvent = {
         id: `event-${eventId++}`,
         type: 'assist',
         timestamp: new Date().toISOString(),
         game: { ...game, homeTeam: { ...homeTeam }, awayTeam: { ...awayTeam } },
         player: mappedPlayer,
-        seasonStats: { ...player.seasonStats, assists: player.seasonStats.assists + 1, points: player.seasonStats.points + 2 },
+        seasonStats: { ...player.seasonStats, assists: newAssistStats, points: newPointsAfterAssist },
+        leagueRanking: {
+          category: 'assists',
+          rank: 5,
+          previousRank: 6,
+          totalPlayers: 800,
+        },
         goalScoredBy: { id: 'p2', name: 'Zach Hyman', number: 18, position: 'LW' as const, team: player.team },
         assistType: 'primary',
         periodTime: '14:22',
       };
+      addLog(`ASSIST! ${player.name} sets up Hyman (${homeTeam.score}-${awayTeam.score}) - ${newAssistStats}A, #5 in NHL assists`, 'assist');
       await eventDispatcher.dispatch(assist);
       await sleep(randomDelay(6000, 9000));
 
@@ -248,37 +254,53 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       await sleep(randomDelay(4000, 6000));
 
       // Second assist - building momentum
-      addLog(`${player.name} with a secondary assist`, 'assist');
       homeTeam.score++;
+      const newAssistStats2 = player.seasonStats.assists + 2;
+      const newPointsAfterAssist2 = player.seasonStats.points + 3;
       const secondAssist: AssistEvent = {
         id: `event-${eventId++}`,
         type: 'assist',
         timestamp: new Date().toISOString(),
         game: { ...game, homeTeam: { ...homeTeam }, awayTeam: { ...awayTeam } },
         player: mappedPlayer,
-        seasonStats: { ...player.seasonStats, assists: player.seasonStats.assists + 2, points: player.seasonStats.points + 3 },
+        seasonStats: { ...player.seasonStats, assists: newAssistStats2, points: newPointsAfterAssist2 },
+        leagueRanking: {
+          category: 'points',
+          rank: 3,
+          previousRank: 5,
+          totalPlayers: 800,
+        },
         goalScoredBy: { id: 'p3', name: 'Ryan Nugent-Hopkins', number: 93, position: 'C' as const, team: player.team },
         assistType: 'secondary',
         periodTime: '3:12',
       };
+      addLog(`ASSIST! ${player.name} to RNH (${homeTeam.score}-${awayTeam.score}) - ${newPointsAfterAssist2} points, jumps to #3 in NHL!`, 'assist');
       await eventDispatcher.dispatch(secondAssist);
       await sleep(randomDelay(5000, 8000));
 
       // Goal 2 - Power play goal!
-      addLog(`${player.name} scores on the power play!`, 'goal');
       homeTeam.score++;
       const assistPlayer2: Player = { id: 'p4', name: 'Evan Bouchard', number: 2, position: 'D', team: player.team };
+      const newGoalStats2 = player.seasonStats.goals + 2;
+      const newPointStats2 = player.seasonStats.points + 4;
       const goal2: GoalEvent = {
         id: `event-${eventId++}`,
         type: 'goal',
         timestamp: new Date().toISOString(),
         game: { ...game, homeTeam: { ...homeTeam }, awayTeam: { ...awayTeam } },
         player: mappedPlayer,
-        seasonStats: { ...player.seasonStats, goals: player.seasonStats.goals + 2, points: player.seasonStats.points + 4 },
+        seasonStats: { ...player.seasonStats, goals: newGoalStats2, points: newPointStats2 },
+        leagueRanking: {
+          category: 'goals',
+          rank: 6,
+          previousRank: 8,
+          totalPlayers: 800,
+        },
         assistedBy: [assistPlayer2],
         goalType: 'power_play',
         periodTime: '6:15',
       };
+      addLog(`POWER PLAY GOAL! ${player.name} rips it (${homeTeam.score}-${awayTeam.score}) - ${newGoalStats2}G, now #6 in NHL`, 'goal');
       goals.push(goal2);
       await eventDispatcher.dispatch(goal2);
       await sleep(randomDelay(6000, 9000));
@@ -292,42 +314,59 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
       await sleep(randomDelay(4000, 6000));
 
       // Opponent scores - game gets tight
-      addLog('Opponent scores - game tightening up', 'info');
       awayTeam.score++;
+      addLog(`${awayTeam.name} answers back - Tied ${homeTeam.score}-${awayTeam.score}`, 'info');
       await sleep(randomDelay(6000, 9000));
 
-      // Goal 3 - Hat Trick goal!
-      addLog(`${player.name} with a clutch goal!`, 'goal');
+      // Goal 3 - Hat Trick goal breaks the tie!
       homeTeam.score++;
       const assistPlayer3: Player = { id: 'p2', name: 'Leon Draisaitl', number: 29, position: 'C', team: player.team };
       const assistPlayer4: Player = { id: 'p4', name: 'Evan Bouchard', number: 2, position: 'D', team: player.team };
+      const newGoalStats3 = player.seasonStats.goals + 3;
+      const newPointStats3 = player.seasonStats.points + 5;
+      const newPPG = newPointStats3 / (player.seasonStats.gamesPlayed + 1);
       const goal3: GoalEvent = {
         id: `event-${eventId++}`,
         type: 'goal',
         timestamp: new Date().toISOString(),
         game: { ...game, homeTeam: { ...homeTeam }, awayTeam: { ...awayTeam } },
         player: mappedPlayer,
-        seasonStats: { ...player.seasonStats, goals: player.seasonStats.goals + 3, points: player.seasonStats.points + 5 },
+        seasonStats: { ...player.seasonStats, goals: newGoalStats3, points: newPointStats3, pointsPerGame: newPPG },
+        leagueRanking: {
+          category: 'ppg',
+          rank: 2,
+          previousRank: 3,
+          totalPlayers: 800,
+        },
         assistedBy: [assistPlayer3, assistPlayer4],
         goalType: 'even_strength',
         periodTime: '12:08',
       };
+      addLog(`CLUTCH GOAL! ${player.name} breaks the tie (${homeTeam.score}-${awayTeam.score}) - ${newGoalStats3}G, ${newPPG.toFixed(2)} PPG (#2 in NHL)`, 'goal');
       goals.push(goal3);
       await eventDispatcher.dispatch(goal3);
       await sleep(randomDelay(5000, 7000));
 
       // Hat Trick celebration!
-      addLog(`HAT TRICK! ${player.name} completes the natural hat trick!`, 'hat_trick');
+      const finalGoalStats = player.seasonStats.goals + 3;
+      const finalPointStats = player.seasonStats.points + 5;
       const hatTrick: HatTrickEvent = {
         id: `event-${eventId++}`,
         type: 'hat_trick',
         timestamp: new Date().toISOString(),
         game: { ...game, homeTeam: { ...homeTeam }, awayTeam: { ...awayTeam } },
         player: mappedPlayer,
-        seasonStats: { ...player.seasonStats, goals: player.seasonStats.goals + 3, points: player.seasonStats.points + 5 },
+        seasonStats: { ...player.seasonStats, goals: finalGoalStats, points: finalPointStats },
+        leagueRanking: {
+          category: 'points',
+          rank: 1,
+          previousRank: 3,
+          totalPlayers: 800,
+        },
         goals: [goal1, goal2, goal3],
         careerHatTricks: 3,
       };
+      addLog(`🎩 HAT TRICK ALERT! ${player.name} (${finalPointStats} PTS) takes over #1 in NHL scoring!`, 'hat_trick');
       await eventDispatcher.dispatch(hatTrick);
       await sleep(randomDelay(6000, 9000));
 
@@ -392,7 +431,7 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
           <div>
             <CardTitle className="text-white">Game Simulator</CardTitle>
             <CardDescription className="text-slate-400">
-              Simulate a live game with real-time push notifications
+              Simulate a live game with real-time events
             </CardDescription>
           </div>
           {isGameSimulating && (
@@ -481,7 +520,7 @@ export function SimulateGameButton({ player }: SimulateGameButtonProps) {
         <div className="flex items-start gap-2 rounded-md border border-blue-500/20 bg-blue-500/5 p-3">
           <Star className="h-4 w-4 text-blue-400 mt-0.5 flex-shrink-0" />
           <p className="text-xs text-slate-400 leading-relaxed">
-            Enable browser notifications to receive real-time push notifications during the simulation
+            Watch real-time events unfold as the game is simulated
           </p>
         </div>
       </CardContent>

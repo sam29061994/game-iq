@@ -13,13 +13,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GameIQ - Hockey Stats That Matter",
+  title: "GameSheet IQ - Hockey Stats That Matter",
   description: "Real-time notifications and AI summaries for your hockey player",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "GameIQ",
+    title: "GameSheet IQ",
   },
 };
 

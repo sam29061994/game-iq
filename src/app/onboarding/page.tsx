@@ -72,7 +72,7 @@ export default function OnboardingPage() {
                         />
                       </svg>
                     </div>
-                    <h1 className="text-2xl font-bold text-white">Welcome to GameIQ</h1>
+                    <h1 className="text-2xl font-bold text-white">Welcome to GameSheet IQ</h1>
                     <p className="text-slate-300 text-sm text-balance">
                       Track your favorite player's performance in real-time
                     </p>

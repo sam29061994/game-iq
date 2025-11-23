@@ -37,6 +37,13 @@ export interface SeasonStats {
   pointsPerGame: number;
 }
 
+export interface LeagueRanking {
+  category: 'goals' | 'assists' | 'points' | 'ppg';
+  rank: number;
+  previousRank?: number;
+  totalPlayers: number;
+}
+
 // Event Types
 export type HockeyEventType =
   | 'goal'
@@ -55,6 +62,7 @@ export interface BaseHockeyEvent {
   game: Game;
   player: Player;
   seasonStats: SeasonStats;
+  leagueRanking?: LeagueRanking;
 }
 
 export interface GoalEvent extends BaseHockeyEvent {

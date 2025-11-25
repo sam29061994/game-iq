@@ -57,7 +57,7 @@ export function DashboardHeader({ currentPage = 'dashboard', onBack }: Dashboard
                 </svg>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">GameIQ</h1>
+                <h1 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">GameSheet IQ</h1>
                 <p className="text-xs text-slate-400">Real-time Player Insights</p>
               </div>
             </div>

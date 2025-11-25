@@ -75,7 +75,7 @@ export default function UserInfoPage() {
     <div className="flex min-h-svh flex-col items-center justify-center p-6 md:p-10 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <div className="w-full max-w-2xl">
         <div className="flex flex-col gap-6">
-          {/* GameIQ Branding Header */}
+          {/* GameSheet IQ Branding Header */}
           <div className="text-center space-y-4">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-500">
               <svg
@@ -92,7 +92,7 @@ export default function UserInfoPage() {
                 />
               </svg>
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white">GameIQ</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-white">GameSheet IQ</h1>
             <div className="flex items-center justify-center gap-2 text-sm">
               <div className="flex items-center gap-2">
                 <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white flex items-center justify-center text-xs font-medium">

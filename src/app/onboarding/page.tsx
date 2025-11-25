@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useUserStore } from '@/lib/mock-data/user-state';
-import { Activity } from 'lucide-react';
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -173,7 +172,7 @@ export default function OnboardingPage() {
                             <div className="relative h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400"></div>
                           </div>
                           <p className="text-xs text-slate-400 leading-relaxed">
-                            <span className="text-slate-300 font-medium">Live notifications:</span> Know the instant they score—even from miles away
+                            <span className="text-slate-300 font-medium">Live notifications:</span> Real time alerts the moment they bury one—no matter where you are
                           </p>
                         </div>
                         <div className="flex items-start gap-3">
@@ -182,7 +181,7 @@ export default function OnboardingPage() {
                             <div className="relative h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400"></div>
                           </div>
                           <p className="text-xs text-slate-400 leading-relaxed">
-                            <span className="text-slate-300 font-medium">Smart context:</span> "Career-high 2 goals, now #3 in division"—not just stats, stories
+                            <span className="text-slate-300 font-medium">Smart context:</span> "Noah S. nets his 12th of the season, elevating him to third place on the league scoring leaderboard"
                           </p>
                         </div>
                         <div className="flex items-start gap-3">
@@ -191,7 +190,7 @@ export default function OnboardingPage() {
                             <div className="relative h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400"></div>
                           </div>
                           <p className="text-xs text-slate-400 leading-relaxed">
-                            <span className="text-slate-300 font-medium">Share-worthy summaries:</span> Beautiful game recaps made for celebrating
+                            <span className="text-slate-300 font-medium">Share-worthy summaries:</span> Fast, clean game recaps—built for posting, celebrating, and reliving the best moments
                           </p>
                         </div>
                         <div className="flex items-start gap-3">
